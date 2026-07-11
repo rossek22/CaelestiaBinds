@@ -165,7 +165,7 @@ Singleton {
         "project.contrib.title": "Contributing",
         "project.contrib.body": "PRs and issues welcome. See CONTRIBUTING.md in the repo for setup, layout and coding notes.",
         "project.repo": "Open on GitHub",
-        "project.license": "MIT · source in ~/CaelestiaBinds"
+        "project.license": "GPL-3.0 · source in ~/CaelestiaBinds"
     })
 
     // Russian
@@ -257,6 +257,6 @@ Singleton {
         "project.contrib.title": "Контрибьют",
         "project.contrib.body": "PR и issues приветствуются. Смотри CONTRIBUTING.md в репо: setup, структура, заметки по коду.",
         "project.repo": "Открыть на GitHub",
-        "project.license": "MIT · исходники в ~/CaelestiaBinds"
+        "project.license": "GPL-3.0 · исходники в ~/CaelestiaBinds"
     })
 }

@@ -101,4 +101,4 @@ Use GitHub Issues with:
 
 ## License
 
-By contributing you agree your changes are under the **MIT** license (see [LICENSE](LICENSE)).
+By contributing you agree your changes are licensed under **GPL-3.0-or-later** (see [LICENSE](LICENSE)).

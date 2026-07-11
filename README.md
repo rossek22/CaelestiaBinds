@@ -120,4 +120,9 @@ Details: **[CONTRIBUTING.md](CONTRIBUTING.md)**
 
 ## License
 
-MIT · see [LICENSE](LICENSE)
+**[GPL-3.0-or-later](LICENSE)**
+
+You can use, study, share and change this project freely (including in your own setups and forks).  
+If you **distribute** modified or combined versions, the corresponding source **must stay open** under GPL-3.0 (or later).
+
+In short: free to use, keep the code open source.
