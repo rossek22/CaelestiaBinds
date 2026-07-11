@@ -41,33 +41,47 @@ sudo pacman -S quickshell python
 
 ## Install
 
+One-liner (clone + install):
+
 ```bash
-git clone https://github.com/rossek22/CaelestiaBinds.git ~/CaelestiaBinds
-cd ~/CaelestiaBinds
-./install.sh
+curl -fsSL https://raw.githubusercontent.com/rossek22/CaelestiaBinds/main/install.sh | bash
+```
+
+Then:
+
+```bash
 caelestia-binds
 ```
 
-`install.sh` will:
+That will:
 
-1. Link `~/.local/bin/caelestia-binds`
-2. Link Quickshell config → `~/.config/quickshell/caelestia-binds`
-3. Wire Caelestia UI components from the system package
+1. Clone (or update) into `~/CaelestiaBinds`
+2. Link `~/.local/bin/caelestia-binds`
+3. Wire Quickshell config + Caelestia components
 4. Install a desktop entry
+
+### Uninstall
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/rossek22/CaelestiaBinds/main/uninstall.sh | bash
+```
+
+Keeps user data: `~/.config/caelestia/custom-keybinds.json`  
+Keep the source tree: `CAELESTIA_BINDS_KEEP_SOURCE=1 curl -fsSL …/uninstall.sh | bash`
+
+### Manual (from a local clone)
+
+```bash
+git clone https://github.com/rossek22/CaelestiaBinds.git ~/CaelestiaBinds
+cd ~/CaelestiaBinds && ./install.sh
+# ./uninstall.sh
+```
 
 Optional Hypr bind:
 
 ```lua
 hl.bind("SUPER + slash", hl.dsp.exec_cmd(os.getenv("HOME") .. "/.local/bin/caelestia-binds"))
 ```
-
-## Uninstall
-
-```bash
-./uninstall.sh
-```
-
-User data is kept: `~/.config/caelestia/custom-keybinds.json`
 
 ## Project layout
 
