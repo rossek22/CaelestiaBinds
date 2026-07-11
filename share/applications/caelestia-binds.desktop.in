@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=Caelestia Binds
+GenericName=Keyboard Shortcuts
+Comment=Keybind manager for Hyprland + Caelestia (Nexus UI)
+Exec=@EXEC@
+Icon=caelestia-binds
+Terminal=false
+Categories=Settings;Utility;System;
+Keywords=keybinds;shortcuts;hyprland;caelestia;hotkeys;nexus;
+StartupWMClass=org.quickshell

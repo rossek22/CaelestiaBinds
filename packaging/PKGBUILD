@@ -1,0 +1,24 @@
+# Maintainer: you
+pkgname=caelestia-binds
+pkgver=0.1.0
+pkgrel=1
+pkgdesc="Keybind manager for Hyprland + Caelestia (Nexus UI)"
+arch=('any')
+url="https://github.com/YOUR_USER/CaelestiaBinds"
+license=('MIT')
+depends=('quickshell' 'python' 'caelestia-shell')
+source=("$pkgname-$pkgver.tar.gz::$url/archive/refs/tags/v$pkgver.tar.gz")
+sha256sums=('SKIP')
+
+package() {
+  cd "$srcdir/CaelestiaBinds-$pkgver"
+  install -d "$pkgdir/usr/share/caelestia-binds"
+  cp -a bin python quickshell share "$pkgdir/usr/share/caelestia-binds/"
+  install -Dm755 /dev/stdin "$pkgdir/usr/bin/caelestia-binds" <<'EOF'
+#!/bin/bash
+export CAELESTIA_BINDS_ROOT=/usr/share/caelestia-binds
+# system qs config
+exec /usr/share/caelestia-binds/bin/caelestia-binds "$@"
+EOF
+  # note: package would also install qs config under /etc/xdg/quickshell/caelestia-binds
+}

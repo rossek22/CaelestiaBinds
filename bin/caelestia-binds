@@ -1,0 +1,47 @@
+#!/usr/bin/env bash
+# CaelestiaBinds launcher — real Caelestia Quickshell UI
+set -euo pipefail
+
+# Resolve repo root even when invoked via ~/.local/bin symlink
+SOURCE="${BASH_SOURCE[0]}"
+while [ -L "$SOURCE" ]; do
+  DIR="$(cd -P "$(dirname "$SOURCE")" && pwd)"
+  SOURCE="$(readlink "$SOURCE")"
+  [[ $SOURCE != /* ]] && SOURCE="$DIR/$SOURCE"
+done
+ROOT="$(cd -P "$(dirname "$SOURCE")/.." && pwd)"
+export CAELESTIA_BINDS_ROOT="$ROOT"
+
+# Prefer repo quickshell config via XDG (install.sh links it)
+QS_NAME="${CAELESTIA_BINDS_QS_NAME:-caelestia-binds}"
+
+if ! command -v qs >/dev/null 2>&1; then
+  echo "CaelestiaBinds requires Quickshell (qs) and Caelestia shell components." >&2
+  echo "Install: caelestia-shell + quickshell" >&2
+  # GTK fallback if present
+  if [ -f "$ROOT/python/gtk_app.py" ]; then
+    exec python3 "$ROOT/python/gtk_app.py" "$@"
+  fi
+  exit 1
+fi
+
+# Stop previous instance of this config only
+python3 - <<'PY'
+import os, signal, subprocess
+name = os.environ.get("CAELESTIA_BINDS_QS_NAME", "caelestia-binds")
+for line in subprocess.check_output(["ps", "-eo", "pid,comm,args"], text=True).splitlines()[1:]:
+    parts = line.split(None, 2)
+    if len(parts) < 3:
+        continue
+    pid, comm, args = int(parts[0]), parts[1], parts[2]
+    if comm not in ("qs", "quickshell"):
+        continue
+    if name in args or f"quickshell/{name}" in args or f"quickshell/caelestia-keybinds" in args:
+        try:
+            os.kill(pid, signal.SIGTERM)
+        except ProcessLookupError:
+            pass
+PY
+sleep 0.12
+
+exec qs -c "$QS_NAME" -n "$@"

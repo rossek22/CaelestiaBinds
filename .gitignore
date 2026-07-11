@@ -1,0 +1,59 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# Editor / OS
+.idea/
+.vscode/
+*.swp
+*~
+.DS_Store
+Thumbs.db
+
+# Local / generated
+*.qslog
+.cache/
+dist/
+build/
+pkg/
+srcpkg/
+*.pkg.tar*
+
+# AI / agent tooling — never ship these
+AGENTS.md
+agents.md
+CLAUDE.md
+claude.md
+.cursorrules
+.cursor/
+.claude/
+.grok/
+.grok-skills/
+.codex/
+.continue/
+.aider*
+.windsurf/
+.gemini/
+.copilot/
+.github/copilot-instructions.md
+.github/instructions/
+.github/agents/
+.agent/
+.agents/
+skills/
+.skills/
+*.skill.md
+SKILL.md
+.specify/
+.specstory/
+.trash/
+.local/
+
+# Env / secrets
+.env
+.env.*
+*.pem
+*.key

@@ -1,0 +1,12 @@
+module keybinds
+singleton KeybindsI18n 1.0 KeybindsI18n.qml
+KeybindsRoot 1.0 KeybindsRoot.qml
+singleton KeybindsWindowFactory 1.0 KeybindsWindowFactory.qml
+KeybindsNexus 1.0 KeybindsNexus.qml
+KeybindsNav 1.0 KeybindsNav.qml
+KeybindsList 1.0 KeybindsList.qml
+KeybindsDetail 1.0 KeybindsDetail.qml
+KeybindsBackend 1.0 KeybindsBackend.qml
+KeybindsEditor 1.0 KeybindsEditor.qml
+KeybindsAbout 1.0 KeybindsAbout.qml
+KeybindsProject 1.0 KeybindsProject.qml
