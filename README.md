@@ -9,20 +9,49 @@ Built with **real Caelestia Quickshell components** (same stack as Nexus):
 
 **Author:** [Rossek2](https://github.com/rossek22) · [rossek2.ru](https://rossek2.ru) · [Telegram](https://t.me/rossekdev2)
 
-## Features
+## Install
 
-- Browse all Hyprland / Caelestia binds
-- Search and filter (custom / system / overrides / disabled)
-- Resolve `vars.*` → real command
-- Create / edit / delete custom binds
-- Disable (temporary) vs delete (permanent)
-- Override system binds
-- Key capture in the editor
-- EN / RU UI (toggle bottom-left)
-- About (project) + Author (me / setup / links)
-- Live theme from Caelestia `scheme.json`
+### Install (one-liner)
 
-## Requirements
+```bash
+curl -fsSL https://raw.githubusercontent.com/rossek22/CaelestiaBinds/main/install.sh | bash
+```
+
+### Run
+
+```bash
+caelestia-binds
+```
+
+### Uninstall (one-liner)
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/rossek22/CaelestiaBinds/main/uninstall.sh | bash
+```
+
+What the install does:
+
+1. Clones (or updates) the repo into `~/CaelestiaBinds`
+2. Links `~/.local/bin/caelestia-binds`
+3. Wires Quickshell config + Caelestia UI components
+4. Installs a desktop entry
+
+Notes:
+
+- Uninstall keeps bind data: `~/.config/caelestia/custom-keybinds.json`
+- Keep the source tree on uninstall:
+
+```bash
+CAELESTIA_BINDS_KEEP_SOURCE=1 curl -fsSL https://raw.githubusercontent.com/rossek22/CaelestiaBinds/main/uninstall.sh | bash
+```
+
+- If `caelestia-binds` is not found, add `~/.local/bin` to `PATH`:
+
+```bash
+export PATH="$HOME/.local/bin:$PATH"
+```
+
+### Dependencies
 
 | Dep | Notes |
 |-----|--------|
@@ -39,49 +68,37 @@ sudo pacman -S quickshell python
 # + caelestia-shell (AUR / your repo)
 ```
 
-## Install
-
-One-liner (clone + install):
-
-```bash
-curl -fsSL https://raw.githubusercontent.com/rossek22/CaelestiaBinds/main/install.sh | bash
-```
-
-Then:
-
-```bash
-caelestia-binds
-```
-
-That will:
-
-1. Clone (or update) into `~/CaelestiaBinds`
-2. Link `~/.local/bin/caelestia-binds`
-3. Wire Quickshell config + Caelestia components
-4. Install a desktop entry
-
-### Uninstall
-
-```bash
-curl -fsSL https://raw.githubusercontent.com/rossek22/CaelestiaBinds/main/uninstall.sh | bash
-```
-
-Keeps user data: `~/.config/caelestia/custom-keybinds.json`  
-Keep the source tree: `CAELESTIA_BINDS_KEEP_SOURCE=1 curl -fsSL …/uninstall.sh | bash`
-
-### Manual (from a local clone)
+### Manual install (local clone)
 
 ```bash
 git clone https://github.com/rossek22/CaelestiaBinds.git ~/CaelestiaBinds
-cd ~/CaelestiaBinds && ./install.sh
-# ./uninstall.sh
+cd ~/CaelestiaBinds
+./install.sh
+caelestia-binds
 ```
 
-Optional Hypr bind:
+```bash
+./uninstall.sh
+```
+
+### Optional Hypr bind
 
 ```lua
 hl.bind("SUPER + slash", hl.dsp.exec_cmd(os.getenv("HOME") .. "/.local/bin/caelestia-binds"))
 ```
+
+## Features
+
+- Browse all Hyprland / Caelestia binds
+- Search and filter (custom / system / overrides / disabled)
+- Resolve `vars.*` → real command
+- Create / edit / delete custom binds
+- Disable (temporary) vs delete (permanent)
+- Override system binds
+- Key capture in the editor
+- EN / RU UI (toggle bottom-left)
+- About (project) + Author (me / setup / links)
+- Live theme from Caelestia `scheme.json`
 
 ## Project layout
 
