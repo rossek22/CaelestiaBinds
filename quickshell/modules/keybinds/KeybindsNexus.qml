@@ -8,7 +8,7 @@ import qs.components
 import qs.components.controls
 import qs.services
 
-// Хром как у Nexus. Отступы как в шелле, не трогать.
+// chrome matches Nexus — leave padding alone
 Item {
     id: root
 
@@ -28,7 +28,7 @@ Item {
     readonly property bool isInfoPage: isAbout || isAuthor
     readonly property bool showBindsUi: !isInfoPage
 
-    // Метки зависят от языка
+    // labels follow locale
     readonly property var navPages: {
         KeybindsI18n.rev;
         return [
@@ -81,7 +81,7 @@ Item {
         CAnim {}
     }
 
-    // Помним фильтр биндов, чтобы инфо-вкладки не пересобирали flatModel
+    // keep bind filter so info tabs don't rebuild flatModel
     property string lastBindFilter: "all"
     onNavIndexChanged: {
         const k = navPages[navIndex]?.key ?? "all";
@@ -286,7 +286,7 @@ Item {
                 onEditRequested: b => editor.openEdit(b, b.source === "system")
             }
 
-            // About: про проект
+            // About tab
             KeybindsProject {
                 id: projectView
                 anchors.fill: parent
@@ -296,7 +296,7 @@ Item {
                 z: root.isAbout ? 3 : 0
             }
 
-            // Author: ник, ава, ссылки, сетап
+            // Author tab
             KeybindsAbout {
                 id: authorView
                 anchors.fill: parent

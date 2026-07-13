@@ -5,19 +5,19 @@ import QtQuick
 import Quickshell
 import Quickshell.Io
 
-// Локаль UI: en / ru, сохраняется в ~/.config/caelestia/binds-ui.json
+// en/ru, persisted in ~/.config/caelestia/binds-ui.json
 Singleton {
     id: root
 
     property string lang: "en"
     readonly property bool isRu: lang === "ru"
-    // bump чтобы биндинги t() пересчитались
+    // bump so t() bindings re-eval
     property int rev: 0
 
     readonly property string configPath: `${Quickshell.env("HOME")}/.config/caelestia/binds-ui.json`
 
     function t(key: string): string {
-        // зависимость для биндингов
+        // force binding deps
         root.rev;
         root.lang;
         const pack = root.isRu ? ru : en;
@@ -69,7 +69,7 @@ Singleton {
             } catch (e) {}
         }
         onLoadFailed: err => {
-            // Первый запуск: создаём файл с дефолтом en
+            // first run — seed default en
             Qt.callLater(() => storage.setText(JSON.stringify({
                 lang: root.lang || "en"
             })));

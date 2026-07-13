@@ -8,14 +8,14 @@ import qs.components.containers
 import qs.components.controls
 import qs.services
 
-// Как NavPane / NavLocations / SearchBar в Nexus шелла
+// same idea as Nexus NavPane / SearchBar
 ColumnLayout {
     id: root
 
     required property var pages
     required property int currentIndex
     property string searchText
-    // Первая инфо-вкладка (about/author): разделитель перед ней
+    // first info tab (about/author) — draw a divider before it
     property int infoIndex: {
         for (let i = 0; i < pages.length; i++) {
             const k = pages[i].key;
@@ -29,7 +29,7 @@ ColumnLayout {
 
     spacing: Tokens.spacing.large
 
-    // Клон SearchBar
+    // SearchBar clone
     StyledRect {
         id: searchShell
         Layout.fillWidth: true
@@ -91,7 +91,7 @@ ColumnLayout {
         }
     }
 
-    // Обычный Flickable без слоя VerticalFadeFlickable
+    // plain Flickable, VerticalFadeFlickable is too heavy here
     Flickable {
         Layout.fillWidth: true
         Layout.fillHeight: true
@@ -119,7 +119,7 @@ ColumnLayout {
                     Layout.fillWidth: true
                     spacing: Tokens.spacing.extraSmall
 
-                    // Разделитель перед блоком INFO
+                    // divider before INFO
                     Item {
                         visible: wrap.index === root.infoIndex && root.infoIndex > 0
                         Layout.fillWidth: true
@@ -236,7 +236,7 @@ ColumnLayout {
         }
     }
 
-    // Круглая кнопка языка слева снизу
+    // lang toggle, bottom-left
     RowLayout {
         Layout.fillWidth: true
         Layout.topMargin: Tokens.spacing.small

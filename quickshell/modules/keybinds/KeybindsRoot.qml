@@ -7,7 +7,7 @@ import qs.services
 Scope {
     id: root
 
-    // Сразу открываем окно: этот qs-конфиг только ради UI
+    // open window immediately — this qs config is just the UI
     Component.onCompleted: KeybindsWindowFactory.open()
 
     

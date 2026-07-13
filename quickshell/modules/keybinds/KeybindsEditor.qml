@@ -10,7 +10,7 @@ import qs.components.containers
 import qs.components.controls
 import qs.services
 
-// Редактор бинда: полноэкранная модалка, анимация, блокировка фона, захват клавиш
+// bind editor modal — anim, scrim, key capture
 Item {
     id: root
 
@@ -21,7 +21,7 @@ Item {
     property string kind: "exec"
     property bool capturing: false
 
-    // Визуальное состояние для анимации (open может закрыться после fade-out)
+    // visual state for anim (open may flip false after fade-out)
     property real scrimOpacity: 0
     property real cardOpacity: 0
     property real cardScale: 0.92
@@ -32,12 +32,12 @@ Item {
 
     anchors.fill: parent
     z: 1000
-    // Держим в дереве пока анимируемся
+    // stay in tree while animating
     visible: open || scrimOpacity > 0.001
-    // Блокируем клики/колёсико сквозь модалку
+    // block clicks / wheel through the modal
     enabled: visible
 
-    // Сплошные цвета: palette может быть полупрозрачной из-за transparency
+    // solid fills — palette can go translucent with transparency on
     readonly property color solidSurface: {
         const c = Colours.palette.m3surface;
         return Qt.rgba(c.r, c.g, c.b, 1);
@@ -119,7 +119,7 @@ Item {
 
     function playOpen(): void {
         closeAnim.stop();
-        // Старт с «закрытого» кадра, чтобы анимка всегда видна
+        // start from closed frame so the anim always plays
         scrimOpacity = 0;
         cardOpacity = 0;
         cardScale = 0.92;
@@ -132,7 +132,7 @@ Item {
         if (!open && scrimOpacity <= 0)
             return;
         capturing = false;
-        // Уже закрываемся
+        // already closing
         if (closeAnim.running)
             return;
         openAnim.stop();
@@ -243,7 +243,7 @@ Item {
         }
 
         const parts = [];
-        // Super часто приходит как Meta на X11/Wayland
+        // Super often shows up as Meta on X11/Wayland
         if (event.modifiers & Qt.MetaModifier)
             parts.push("SUPER");
         if (event.modifiers & Qt.ControlModifier)
@@ -262,7 +262,7 @@ Item {
         keysField.text = parts.join(" + ");
         root.capturing = false;
         captureHint.text = KeybindsI18n.tf("editor.hint.got", keysField.text);
-        // Поле остаётся в фокусе для повторного захвата; Esc → ручной ввод
+        // keep focus for re-capture; Esc → type manually
         event.accepted = true;
         return true;
     }
@@ -276,20 +276,20 @@ Item {
 
 
 
-    // Глобальный захват клавиш пока open
+    // global key grab while open
     Keys.enabled: open
     Keys.priority: Keys.BeforeItem
     Keys.onPressed: event => {
         if (handleCapture(event))
             return;
-        // Esc закрывает модалку, если не в capture
+        // Esc closes modal when not capturing
         if (event.key === Qt.Key_Escape && open) {
             root.close();
             event.accepted = true;
         }
     }
 
-    // Затемнение + блокер на всё окно (nav + контент)
+    // scrim + blocker over whole window
     Rectangle {
         id: scrim
         anchors.fill: parent
@@ -297,7 +297,7 @@ Item {
         color: root.solidScrim
         opacity: root.scrimOpacity
 
-        // Ест клики/колёсико: фон не скроллится и не кликается
+        // eat clicks/wheel so background doesn't scroll
         MouseArea {
             anchors.fill: parent
             hoverEnabled: true
@@ -320,7 +320,7 @@ Item {
         }
     }
 
-    // Непрозрачная карточка диалога
+    // opaque dialog card
     Rectangle {
         id: card
         z: 1
@@ -338,7 +338,7 @@ Item {
         scale: root.cardScale
         transformOrigin: Item.Center
 
-        // Доп. заливка на случай альфы у детей
+        // extra fill in case kids go translucent
         Rectangle {
             anchors.fill: parent
             radius: parent.radius
@@ -346,7 +346,7 @@ Item {
             z: -1
         }
 
-        // Не даём wheel «пробить» карточку к списку под модалкой
+        // stop wheel from hitting the list under the modal
         MouseArea {
             anchors.fill: parent
             z: -1
@@ -421,11 +421,11 @@ Item {
                                 placeholderTextColor: Colours.palette.m3outline
                                 font: Tokens.font.body.medium
                                 background: null
-                                // Режим захвата подменяет ввод на аккорд
+                                // capture mode swaps typing for a chord
                                 readOnly: root.capturing
                                 selectByMouse: !root.capturing
 
-                                // Фокус на KEYS включает захват (Esc отменяет, дальше обычный ввод)
+                                // focus KEYS → capture (Esc cancels, then normal typing)
                                 onActiveFocusChanged: {
                                     if (activeFocus)
                                         root.capturing = true;
@@ -647,7 +647,7 @@ Item {
         }
     }
 
-    // Анимация открытия: scrim fade + card scale/fade/slide
+    // open anim: scrim fade + card scale/fade/slide
     ParallelAnimation {
         id: openAnim
         NumberAnimation {

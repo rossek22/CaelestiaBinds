@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""cli для qs. list/save/delete — всё сюда."""
+"""CLI for qs — list/save/delete land here."""
 
 from __future__ import annotations
 

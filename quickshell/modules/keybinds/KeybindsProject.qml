@@ -10,7 +10,7 @@ import qs.components.containers
 import qs.components.controls
 import qs.services
 
-// Вкладка About: про проект, стек, зачем создан
+// About tab — project / stack / why
 Flickable {
     id: root
 

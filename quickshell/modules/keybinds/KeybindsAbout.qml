@@ -14,7 +14,7 @@ import qs.components.images
 import qs.components.widgets
 import qs.services
 
-// Вкладка Author: ник, ава, сетап, ссылки. Аватар как CoverArt (без визуалайзера)
+// Author tab — nick, ava, setup, links. ava styled like CoverArt
 Flickable {
     id: root
 
@@ -23,7 +23,7 @@ Flickable {
     clip: true
     boundsBehavior: Flickable.DragAndOvershootBounds
     flickDeceleration: 3500
-    // Без VerticalFadeFlickable: слой маски на переключении вкладок дорогой
+    // no VerticalFadeFlickable — mask layer is expensive on tab switch
 
     readonly property string avatarPath: {
         const r = Quickshell.env("CAELESTIA_BINDS_ROOT");
@@ -32,7 +32,7 @@ Flickable {
         return `file://${Quickshell.env("HOME")}/CaelestiaBinds/assets/rossek2.jpg`;
     }
 
-    // Слои GPU всегда включены: страница держится в дереве, переключение слоёв даёт фриз
+    // keep GPU layers on — page stays in tree, toggling freezes
     readonly property bool layersOn: true
 
     ColumnLayout {
@@ -40,7 +40,7 @@ Flickable {
         width: root.width
         spacing: Tokens.spacing.large
 
-        // Карточка автора: клик → GitHub
+        // author card → GitHub
         StyledRect {
             Layout.fillWidth: true
             radius: Tokens.rounding.extraLarge
@@ -60,7 +60,7 @@ Flickable {
                 anchors.margins: Tokens.padding.extraLarge
                 spacing: Tokens.spacing.extraLarge
 
-                // Блок из CoverArt.qml (медиа-плеер): cookie + FadeImage + Mask
+                // CoverArt-style blob (cookie + FadeImage + Mask)
                 Item {
                     id: cover
                     Layout.preferredWidth: 96
@@ -70,7 +70,7 @@ Flickable {
 
                     property color fallbackColour: Colours.layer(Colours.palette.m3surfaceContainerHighest, 2)
 
-                    // Лёгкое свечение, как у CoverArt
+                    // soft glow like CoverArt
                     layer.enabled: root.layersOn
                     layer.effect: MultiEffect {
                         shadowEnabled: true
@@ -164,7 +164,7 @@ Flickable {
             }
         }
 
-        // Сетап: GPU / CPU / RAM / OS
+        // setup: GPU / CPU / RAM / OS
         StyledRect {
             Layout.fillWidth: true
             radius: Tokens.rounding.extraLarge
@@ -214,7 +214,7 @@ Flickable {
                     }
                 }
 
-                // Сетка из 4 плиток
+                // 4-tile grid
                 GridLayout {
                     Layout.fillWidth: true
                     columns: 2
@@ -376,7 +376,7 @@ Flickable {
             }
         }
 
-        // Сайт
+        // site
         StyledRect {
             Layout.fillWidth: true
             radius: Tokens.rounding.extraLarge

@@ -6,7 +6,7 @@ import Caelestia.Config
 import qs.components
 import qs.services
 
-// ListView + reuse: большие списки биндов не лагают
+// reuseItems keeps big bind lists smooth
 ListView {
     id: root
 
@@ -48,7 +48,7 @@ ListView {
         implicitHeight: modelData?.kind === "header" ? headerBlock.implicitHeight : rowBlock.implicitHeight
         height: implicitHeight
 
-        // Заголовок секции
+        // section header
         Item {
             id: headerBlock
             anchors.left: parent.left
@@ -70,7 +70,7 @@ ListView {
             }
         }
 
-        // Строка бинда
+        // bind row
         StyledRect {
             id: rowBlock
             anchors.left: parent.left
@@ -110,23 +110,36 @@ ListView {
                 anchors.rightMargin: Tokens.padding.largeIncreased
                 spacing: Tokens.spacing.medium
 
+                // shortcut chip
                 StyledRect {
-                    implicitHeight: keyLabel.implicitHeight + Tokens.padding.extraSmall
-                    implicitWidth: keyLabel.implicitWidth + Tokens.padding.medium
+                    id: keyPill
+                    readonly property bool accent: rowBlock.b?.source === "custom" || rowBlock.b?.source === "override"
+                    readonly property string keysText: rowBlock.b?.keys ?? ""
+
+                    Layout.alignment: Qt.AlignVCenter
+                    implicitHeight: Math.max(keyLabel.implicitHeight + Tokens.padding.extraSmall * 2, Tokens.padding.large * 2)
+                    implicitWidth: Math.max(keyLabel.implicitWidth + Tokens.padding.medium * 2, Tokens.padding.large * 2)
                     radius: Tokens.rounding.small
-                    color: (rowBlock.b?.source === "custom" || rowBlock.b?.source === "override") ? Colours.palette.m3primaryContainer : Colours.palette.m3secondaryContainer
+                    color: keyPill.accent ? Colours.palette.m3primaryContainer : Colours.palette.m3secondaryContainer
+                    clip: false
 
                     StyledText {
                         id: keyLabel
                         anchors.centerIn: parent
-                        text: rowBlock.b?.keys ?? ""
-                        color: (rowBlock.b?.source === "custom" || rowBlock.b?.source === "override") ? Colours.palette.m3onPrimaryContainer : Colours.palette.m3onSecondaryContainer
+                        text: keyPill.keysText
+                        color: keyPill.accent ? Colours.palette.m3onPrimaryContainer : Colours.palette.m3onSecondaryContainer
                         font: Tokens.font.label.medium
+                        // NativeRendering sometimes eats glyphs → empty coloured pill
+                        renderType: Text.QtRendering
+                        textFormat: Text.PlainText
+                        wrapMode: Text.NoWrap
+                        maximumLineCount: 1
                     }
                 }
 
                 ColumnLayout {
                     Layout.fillWidth: true
+                    Layout.alignment: Qt.AlignVCenter
                     spacing: 0
                     opacity: rowBlock.b?.enabled ? 1 : 0.5
 
@@ -135,6 +148,7 @@ ListView {
                         text: rowBlock.b?.title ?? ""
                         font: Tokens.font.body.small
                         elide: Text.ElideRight
+                        renderType: Text.QtRendering
                     }
 
                     StyledText {
@@ -143,20 +157,25 @@ ListView {
                         color: Colours.palette.m3outline
                         font: Tokens.font.label.small
                         elide: Text.ElideRight
+                        renderType: Text.QtRendering
                     }
                 }
 
+                // real cmd when vars.* resolved
                 StyledRect {
+                    id: realPill
                     visible: rowBlock.b?.hasVarCmd ?? false
-                    implicitHeight: realLabel.implicitHeight + Tokens.padding.extraSmall
+                    Layout.alignment: Qt.AlignVCenter
+                    implicitHeight: Math.max(realLabel.implicitHeight + Tokens.padding.extraSmall * 2, Tokens.padding.large * 2)
                     implicitWidth: Math.min(realLabel.implicitWidth + Tokens.padding.small * 2, 140)
                     radius: Tokens.rounding.full
-                    color: Colours.layer(Colours.palette.m3primary, 2)
+                    // layer(colour) + same text colour = invisible label, use alpha instead
+                    color: Qt.alpha(Colours.palette.m3primary, 0.16)
 
                     StyledText {
                         id: realLabel
                         anchors.centerIn: parent
-                        width: parent.width - Tokens.padding.small * 2
+                        width: Math.max(0, parent.width - Tokens.padding.small * 2)
                         horizontalAlignment: Text.AlignHCenter
                         text: {
                             const t = rowBlock.b?.technicalResolved || "";
@@ -165,25 +184,40 @@ ListView {
                         color: Colours.palette.m3primary
                         font: Tokens.font.label.small
                         elide: Text.ElideRight
+                        renderType: Text.QtRendering
+                        textFormat: Text.PlainText
+                        wrapMode: Text.NoWrap
+                        maximumLineCount: 1
                     }
                 }
 
+                // source badge (custom / system / override)
                 StyledRect {
-                    implicitHeight: srcLabel.implicitHeight + Tokens.padding.extraSmall
-                    implicitWidth: srcLabel.implicitWidth + Tokens.padding.small * 2
+                    id: srcPill
+                    readonly property string src: (rowBlock.b?.source || "").toLowerCase()
+                    readonly property color fg: src === "custom" ? Colours.palette.m3primary : src === "override" ? Colours.palette.m3secondary : Colours.palette.m3onSurfaceVariant
+
+                    Layout.alignment: Qt.AlignVCenter
+                    implicitHeight: Math.max(srcLabel.implicitHeight + Tokens.padding.extraSmall * 2, Tokens.padding.large * 2)
+                    implicitWidth: Math.max(srcLabel.implicitWidth + Tokens.padding.small * 2, Tokens.padding.large * 2)
                     radius: Tokens.rounding.full
-                    color: Colours.layer(Colours.palette.m3onSurfaceVariant, 2)
+                    color: Qt.alpha(srcPill.fg, 0.16)
 
                     StyledText {
                         id: srcLabel
                         anchors.centerIn: parent
                         text: (rowBlock.b?.source || "").toUpperCase()
-                        color: Colours.palette.m3onSurfaceVariant
+                        color: srcPill.fg
                         font: Tokens.font.label.small
+                        renderType: Text.QtRendering
+                        textFormat: Text.PlainText
+                        wrapMode: Text.NoWrap
+                        maximumLineCount: 1
                     }
                 }
 
                 MaterialIcon {
+                    Layout.alignment: Qt.AlignVCenter
                     text: "chevron_right"
                     color: Colours.palette.m3onSurfaceVariant
                     fontStyle: Tokens.font.icon.small

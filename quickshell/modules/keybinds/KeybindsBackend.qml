@@ -7,7 +7,7 @@ import Quickshell.Io
 Item {
     id: root
 
-    // ROOT из install.sh, иначе ~/CaelestiaBinds
+    // set by install.sh / launcher, fallback ~/CaelestiaBinds
     readonly property string rootDir: {
         const e = Quickshell.env("CAELESTIA_BINDS_ROOT");
         if (e && e.length)
@@ -115,7 +115,7 @@ Item {
     }
 
     function saveBind(obj): void {
-        // JSON через argv: payload мелкий
+        // tiny payload, fine as argv
         saveProc.command = ["python3", root.cli, "save-json", JSON.stringify(obj)];
         saveProc.running = false;
         saveProc.running = true;
@@ -158,7 +158,7 @@ Item {
 
     Process {
         id: saveProc
-        // stdin задаётся в рантайме
+        // stdin wired at runtime
         stdout: StdioCollector {
             onStreamFinished: root.applyPayload(text)
         }

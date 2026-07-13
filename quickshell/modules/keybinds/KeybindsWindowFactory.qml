@@ -44,11 +44,11 @@ Singleton {
             surfaceFormat.opaque: false
             title: KeybindsI18n.t("win.title")
 
-            // Tokens ждут имя screen, как в Nexus шелла
+            // Tokens want a screen name (same as Nexus)
             contentItem.Config.screen: window.screen?.name ?? ""
             contentItem.Tokens.screen: window.screen?.name ?? ""
 
-            // Стандартный размер при открытии
+            // default size on open
             implicitWidth: 1345
             implicitHeight: 845
 

@@ -10,7 +10,7 @@ import qs.components.containers
 import qs.components.controls
 import qs.services
 
-// Detail всегда в дереве: только биндинги на backend.selected
+// always mounted; just rebinds on backend.selected
 Flickable {
     id: root
 
@@ -51,8 +51,8 @@ Flickable {
                 spacing: Tokens.spacing.small
 
                 StyledRect {
-                    implicitHeight: k.implicitHeight + Tokens.padding.extraSmall
-                    implicitWidth: k.implicitWidth + Tokens.padding.medium
+                    implicitHeight: Math.max(k.implicitHeight + Tokens.padding.extraSmall * 2, Tokens.padding.large * 2)
+                    implicitWidth: Math.max(k.implicitWidth + Tokens.padding.medium * 2, Tokens.padding.large * 2)
                     radius: Tokens.rounding.small
                     color: Colours.palette.m3primaryContainer
 
@@ -62,6 +62,10 @@ Flickable {
                         text: root.b?.keys ?? ""
                         color: Colours.palette.m3onPrimaryContainer
                         font: Tokens.font.label.large
+                        renderType: Text.QtRendering
+                        textFormat: Text.PlainText
+                        wrapMode: Text.NoWrap
+                        maximumLineCount: 1
                     }
                 }
 
